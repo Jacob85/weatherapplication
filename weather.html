@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weather html</title>
+
+    <link rel="stylesheet" href="weatherStyle.css" media="screen" />
+    <script type="text/javascript" src="resources/jquery.flip.js"></script>
+    <script type="text/javascript" src="resources/jquery-1.10.2.min.js"></script>
+
+
+</head>
+<body>
+
+<div id="trigger" class="myCorner">
+</div>
+
+<div id="container" class="myCorner">
+    <div id="imageDiv" class="myCorner">
+    </div>
+     <div id="tempatureDiv" class="myCorner">
+         <p id="tempatureLabel">18&deg;</p>
+     </div>
+</div>
+
+<script>
+
+    openme=true;
+
+
+    $(document).ready(function() {
+        displayWeatherImage();
+
+        //listener to the click
+        $('#trigger').click(triggerClick);
+
+        // set the description label
+        initDescriptionLabel();
+    });
+
+    // this function is responsible for displaying different images according to the weather
+    function displayWeatherImage()
+    {
+       var strValue = $('#tempatureLabel').text();
+       var tempValue = parseInt(strValue);
+
+       if (tempValue >= 15 && tempValue <= 20 )
+       {
+           $('#imageDiv').css('background-image','url(images/sunny.png)');
+       }
+       else
+       {
+           $('#imageDiv').css('background-image','url(images/cloudy.png)');
+       }
+    }
+    function initDescriptionLabel()
+    {
+
+        var discriptionLabel = '' +
+                '<p id="discriptionLabel">'+
+                getCurrentCity()+ '<br>'+
+                getCurrentDayByName() + '</p>';
+        $('#tempatureDiv').append(discriptionLabel);
+    }
+
+    // here i will insert the code thar return the current city
+    // for now i enter it static
+    function getCurrentCity()
+    {
+        return 'Ra\'anana';
+    }
+    function getCurrentDate()
+    {
+        var currentDate = new Date();
+        var day = currentDate.getDate();
+        var month = currentDate.getMonth() + 1;
+        var year = currentDate.getFullYear();
+
+        return day + "/" + month + "/" + year;
+    }
+
+    function getCurrentDayByName()
+    {
+        var d = new Date();
+        var weekday=new Array(7);
+        weekday[0]="Sunday";
+        weekday[1]="Monday";
+        weekday[2]="Tuesday";
+        weekday[3]="Wednesday";
+        weekday[4]="Thursday";
+        weekday[5]="Friday";
+        weekday[6]="Saturday";
+        return weekday[d.getDay()];
+    }
+    function triggerClick()
+    {
+        // move right or lest
+        if (openme == true)
+        {
+            $( "#trigger" ).animate({ "right": "+=240px" }, "slow");
+            replaceRtiggerImage();             //replace image
+            $("#container").show("slow");
+        }
+        else
+        {
+            $("#container").hide("slow");
+            $( "#trigger" ).animate({ "right": "-=240px" }, "slow" );
+            replaceRtiggerImage();              //replace image
+
+        }
+    }
+
+    function replaceRtiggerImage()
+    {
+        if (openme == true)
+        {
+            // switch to close me
+            $('#trigger').css('background-image','url(images/closeme.png)');
+            openme = false;
+        }
+        else
+        {
+            //swirch to open me
+            $('#trigger').css('background-image','url(images/openme.png)');
+            openme = true;
+        }
+
+    }
+
+</script>
+
+</body>
+</html>
